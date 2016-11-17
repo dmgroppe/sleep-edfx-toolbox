@@ -56,7 +56,7 @@ for i=1:length(edf_files)
     if exist(download_dir, 'dir') == 0,
         mkdir(download_dir, folder_name);
     end
-    filepath=fullfile(download_dir, folder_name, this_file);
+    filepath=fullfile(download_dir, folder_name);
     filepath_and_name = fullfile(filepath, this_file);
     %path_of_file = fullfile(download_dir, folder_name, this_file);
 
