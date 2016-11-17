@@ -51,30 +51,32 @@ for i=1:length(edf_files)
     % extract name of edf file
     this_file = edf_files{i}(2:end-1);
     folder_name = this_file(1:end-8);
-         
+    
     % create folder for download
     if exist(download_dir, 'dir') == 0,
         mkdir(download_dir, folder_name);
     end
-    path_of_file = fullfile(download_dir, folder_name, this_file);
-    
+    filepath=fullfile(download_dir, folder_name, this_file);
+    filepath_and_name = fullfile(filepath, this_file);
+    %path_of_file = fullfile(download_dir, folder_name, this_file);
+
     % url of the edf file to download
     url_of_file = [edfx_url this_file];
     
     % Check if files is already downloaded (to avoid re-downloading)
-    if exist(folder_name, 'dir') == 0,
-
-    % don't download the file if it exist
-    fprintf('File already exist file: %s (%d of %d)\n', this_file, i, length(edf_files));
-    fprintf('If you need to re-download the file, delete directory: %s \n', fullfile(download_dir, folder_name));
-    saved_file{i} = path_of_file;
-    status{i} = 1;
-    
-    else
+    if exist(filepath_and_name, 'file') == 1,
         
-    % download the file
-    fprintf('Downloading file: %s (%d of %d)\n', this_file, i, length(edf_files));
-    [saved_file{i}, status{i}] = urlwrite(url_of_file,path_of_file);
+        % don't download the file if it exist
+        fprintf('File already exist file: %s (%d of %d)\n', this_file, i, length(edf_files));
+        fprintf('If you need to re-download the file, delete directory: %s \n', fullfile(download_dir, folder_name));
+        saved_file{i} = path_of_file;
+        status{i} = 1;
+        
+    else
+        % download the file
+        mkdir(filepath);
+        fprintf('Downloading file: %s (%d of %d)\n', this_file, i, length(edf_files));
+        [saved_file{i}, status{i}] = urlwrite(url_of_file,filepath_and_name);
     end
 end
 
