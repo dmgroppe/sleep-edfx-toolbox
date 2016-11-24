@@ -37,6 +37,14 @@ edf_file_name = dir([file_name file_extension]);
 % Load edf file in Matlab - requires BioSig toolbox
 % http://biosig.sourceforge.net/download.html
 [edf, header] = sload(edf_file_name.name);
+% cfg.dataset=edf_file_name.name;
+% cfg.continuous='yes';
+% ftrip=ft_preprocessing(cfg);
+% header=[];
+% header.Label=ftrip.label;
+% header.SampleRate=ftrip.fsample;
+% edf=ftrip.trial{1};
+% clear ftrip;
 
 fprintf('Converting file %s ......\n', edf_file_name.name);
 
@@ -59,6 +67,7 @@ end
 sampling_frequency = header.SampleRate;
 
 % Change directory to folder info
+mkdir('info'); 
 old_folder = cd('info');
 % Save the sampling frequency on file
 fid = fopen('sampling_frequency.txt', 'w');
